@@ -32,8 +32,7 @@ public with sharing class CrruencyApiService {
         System.debug('result of currency api :'+ statusCode);
             
         }catch(System.CallOutException calloutExp){
-            System.debug('System.CalloutException .... '+
-calloutExp.getStackTraceString());
+            System.debug('System.CalloutException .... '+calloutExp.getStackTraceString());
 
             if(String.valueOf(calloutExp).startsWith('System.CalloutException:Unauthorised endpoint')){{
                 // Remote Site missing Error -
