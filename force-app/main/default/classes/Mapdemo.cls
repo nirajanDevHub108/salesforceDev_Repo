@@ -2,9 +2,9 @@ public class Mapdemo {
     
     public static void sObjectDemo(){
         List<Account> accList = new List<Account>();
-
+        
         accList=[SELECT Id, Name, Phone FROM Account LIMIT 5];
-         //Map<Id,Account> accMap =new Map<Id,Account>(accList);
+        //Map<Id,Account> accMap =new Map<Id,Account>(accList);
         Map<Id,Account> accMap =new Map<Id,Account>();
         for (Account acc: accList){
             accMap.put(acc.id,acc);
@@ -57,13 +57,47 @@ public class Mapdemo {
     }
     public static void method3(){
         List<Account> accList=[SELECT Id, Name,phone FROM Account LIMIT 5];
-        
-        
-        if(!accList.isEmpty()){
-            System.debug('List contains -'+accList);
+        Set<Id> accids = new Set<Id>();
+        Map<Id,Account> accMap = new Map<Id,Account>();
+        /*if(accList.size() > 0){
+            for(Account acc: accList){
+                System.debug(acc.Id + ' - ' +acc.Name);
+                
+            }
             
-        }else{
-            System.debug('List is null-');
+        }*/
+           if(!accList.isEmpty()){
+            for(Account acc: accList){
+                System.debug(acc.Id + ' ' +acc.Name);
+                accids.add(acc.Id);//set data through list
+                accMap.put(acc.id,acc);//mAp data through list
+                
+            }
+            
+        }
+        //diplay id of set
+           if(!accids.isEmpty()){
+            for(Id accId: accids){
+                System.debug(accId);
+                
+            }
+            
+        }
+        //iterate map base on keys
+        if(!accMap.isEmpty()){
+            for(Id accId: accMap.keySet()){
+                System.debug(accId);
+                
+            }
+            
+        }
+        ///iterate map using values 
+        
+        if(!accMap.isEmpty()){
+            for(Account acc: accMap.values()){
+                System.debug(acc);
+                
+            }
             
         }
         
