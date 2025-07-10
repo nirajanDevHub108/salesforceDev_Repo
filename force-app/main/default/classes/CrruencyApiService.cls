@@ -1,55 +1,41 @@
+/**
+ * @description Service to get currency exchange rates using external API.
+ */
 public with sharing class CrruencyApiService {
+    /**
+     * @description Performs an HTTP GET to fetch the latest USD exchange rates.
+     *              Handles response and exceptions with proper logging.
+     */
     public static void getExchangeRates() {
-        //prepare the request
-        // this is for callout only
-
+        // Prepare the request for a callout to the currency API
         HttpRequest req = new HttpRequest();
-        /* step.1 send the end point*/
         req.setEndpoint('https://open.er-api.com/v6/latest/USD');
-        /* step1.2 set the header */
         req.setHeader('Content-Type', 'application/json');
         req.setHeader('Accept', 'application/json');
-        /* step1.2 set the header */
-        req.setMethod('GET');//GET,PUT,POST
-        
-        /* step-2 send the request */
+        req.setMethod('GET');
+
         Http http = new Http();
-        try{
-             HttpResponse res = http.send(req);  
-        /* step-4 process the response */
-        /* getStatus()
-           getStatusCode()
-           getBody()
-           getHeader()
-           getXmlStreamReader()
-           getBodyAsBlob()
-        */
-        String responseBody = res.getBody();
-        Integer statusCode = res.getStatusCode();
-        String status = res.getStatus();
-        System.debug('result of currency api :'+ status);
-        System.debug('result of currency api :'+ responseBody);
-        System.debug('result of currency api :'+ statusCode);
-            
-        }catch(System.CallOutException calloutExp){
-            System.debug('System.CalloutException .... '+calloutExp.getStackTraceString());
+        try {
+            HttpResponse res = http.send(req);
+            String responseBody = res.getBody();
+            Integer statusCode = res.getStatusCode();
+            String status = res.getStatus();
 
-            if(String.valueOf(calloutExp).startsWith('System.CalloutException:Unauthorised endpoint')){{
+            System.debug(LoggingLevel.INFO, 'result of currency api :' + status);
+            System.debug(LoggingLevel.INFO, 'result of currency api :' + responseBody);
+            System.debug(LoggingLevel.INFO, 'result of currency api :' + statusCode);
+
+        } catch (System.CallOutException calloutExp) {
+            System.debug(LoggingLevel.ERROR, 'System.CalloutException .... ' + calloutExp.getStackTraceString());
+            if (String.valueOf(calloutExp).startsWith('System.CalloutException:Unauthorised endpoint')) {
                 // Remote Site missing Error -
-                System.debug(' CalloutException ');
-                
-                
+                System.debug(LoggingLevel.ERROR, 'CalloutException: Unauthorised endpoint');
             }
-            
+        } catch (System.Exception ex) {
+            System.debug(LoggingLevel.ERROR, 'Exception Executed ... ' + ex.getStackTraceString());
+            if (String.valueOf(ex).startsWith('System.CalloutException: Unauthorised endpoint')) {
+                System.debug(LoggingLevel.ERROR, 'Executed - Unauthorised endpoint');
+            }
         }
-    }catch(System.Exception ex){
-            System.debug('Exception Executed ... '+ ex.getStackTraceString());
-            if(String.valueOf(ex).startsWith('System.CalloutException: Unauthorised endpoint')){
-                System.debug('Executed');
-            
-        }
-             
-
     }
-}
 }
