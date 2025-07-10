@@ -1,7 +1,7 @@
 /**
  * @description Demonstrates use of Set in Apex.
  */
-public class SetDemo {
+public with sharing class SetDemo {
 
     /**
      * @description First demo method for Set usage.
