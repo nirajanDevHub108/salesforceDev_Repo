@@ -33,6 +33,6 @@ jobs:
         run: |
           ./pmd/bin/run.sh pmd \
             -d force-app/main/default/classes \
-            -R rulesets/apex/quickstart.xml
+            -R rulesets/apex/quickstart.xml \
             -f sarif
 
