@@ -1,3 +1,6 @@
+/**
+ * @description Represents a square and its methods.
+ */
 public class Square {
     public Integer side;
 
