@@ -32,7 +32,7 @@ jobs:
       - name: Run PMD on Apex code
         run: |
           ./pmd/bin/run.sh pmd \
-            -d ./src \
+            -d -d force-app/main/default/classes \
             -R category/apex/design.xml \
             -f text
 
