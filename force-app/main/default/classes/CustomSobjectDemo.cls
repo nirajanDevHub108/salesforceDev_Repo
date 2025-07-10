@@ -1,9 +1,9 @@
 /**
- * Demo class for creating Position__c records.
+ * @description Demo class for creating Position__c records.
  */
 public with sharing class CustomSobjectDemo {
     /**
-     * Creates a new Position__c record if the user has create permission.
+     * @description Creates a new Position__c record if the user has create permission.
      */
     public static void createPosition(){
         if(Schema.sObjectType.Position__c.isCreateable()) {
