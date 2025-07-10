@@ -4,22 +4,26 @@
 public with sharing class Mapdemo {
 
     /**
-     * Demonstrates basic SOQL query and map population with Account records.
+     * @description Demonstrates basic SOQL query and map population with Account records.
      */
     public static void sObjectDemo() {
-        List<Account> accList = new List<Account>();
-        accList = [SELECT Id, Name, Phone FROM Account LIMIT 5];
-        Map<Id, Account> accMap = new Map<Id, Account>();
-        for (Account acc : accList) {
-            accMap.put(acc.id, acc);
+        if (Schema.sObjectType.Account.isAccessible()) {
+            List<Account> accList = [SELECT Id, Name, Phone FROM Account LIMIT 5];
+            Map<Id, Account> accMap = new Map<Id, Account>();
+            for (Account acc : accList) {
+                accMap.put(acc.Id, acc);
+            }
+            System.debug(LoggingLevel.INFO, 'Map contains- ' + accMap);
+            System.debug(LoggingLevel.INFO, 'Map keys- ' + accMap.keySet());
+            System.debug(LoggingLevel.INFO, 'Map values - ' + accMap.values());
+        } else {
+            // Handle lack of access, e.g., log or throw an exception
+            System.debug(LoggingLevel.ERROR, 'No access to Account object.');
         }
-        System.debug(LoggingLevel.INFO, 'Map contains- ' + accMap);
-        System.debug(LoggingLevel.INFO, 'Map keys- ' + accMap.keySet());
-        System.debug(LoggingLevel.INFO, 'Map values - ' + accMap.values());
     }
 
     /**
-     * Demonstrates map operations such as put, putAll, and get.
+     * @description Demonstrates map operations such as put, putAll, and get.
      */
     public static void method1() {
         Map<Integer, String> mp = new Map<Integer, String>();
@@ -38,50 +42,58 @@ public with sharing class Mapdemo {
     }
 
     /**
-     * Tests SObjectType and map relationships and basic assertions.
+     * @description Tests SObjectType and map relationships and basic assertions.
      */
     public static void methodTest() {
-        SObject sObj = Database.query('SELECT Id FROM Account LIMIT 1');
-        System.assertEquals(Account.sObjectType, sObj.getSObjectType());
-        Map<Integer, Account> m = new Map<Integer, Account>();
-        System.assertEquals(Account.sObjectType, m.getSObjectType());
-        Map<String, String> colorCodes = new Map<String, String>();
-        colorCodes.put('Red', 'FF0000');
-        colorCodes.put('Blue', '0000A0');
-        Set<String> colorSet = new Set<String>();
-        colorSet = colorCodes.keySet();
-        System.debug(LoggingLevel.INFO, colorSet);
+        if (Schema.sObjectType.Account.isAccessible()) {
+            SObject sObj = Database.query('SELECT Id FROM Account LIMIT 1');
+            System.assertEquals(Account.sObjectType, sObj.getSObjectType());
+            Map<Integer, Account> m = new Map<Integer, Account>();
+            System.assertEquals(Account.sObjectType, m.getSObjectType());
+            Map<String, String> colorCodes = new Map<String, String>();
+            colorCodes.put('Red', 'FF0000');
+            colorCodes.put('Blue', '0000A0');
+            Set<String> colorSet = new Set<String>();
+            colorSet = colorCodes.keySet();
+            System.debug(LoggingLevel.INFO, colorSet);
+        } else {
+            System.debug(LoggingLevel.ERROR, 'No access to Account object.');
+        }
     }
 
     /**
-     * Demonstrates iterating over Account records,
+     * @description Demonstrates iterating over Account records,
      * collecting IDs, and working with maps and sets.
      */
     public static void method3() {
-        List<Account> accList = [SELECT Id, Name, Phone FROM Account LIMIT 5];
-        Set<Id> accids = new Set<Id>();
-        Map<Id, Account> accMap = new Map<Id, Account>();
-        if (!accList.isEmpty()) {
-            for (Account acc : accList) {
-                System.debug(LoggingLevel.INFO, acc.Id + ' ' + acc.Name);
-                accids.add(acc.Id);
-                accMap.put(acc.id, acc);
+        if (Schema.sObjectType.Account.isAccessible()) {
+            List<Account> accList = [SELECT Id, Name, Phone FROM Account LIMIT 5];
+            Set<Id> accids = new Set<Id>();
+            Map<Id, Account> accMap = new Map<Id, Account>();
+            if (!accList.isEmpty()) {
+                for (Account acc : accList) {
+                    System.debug(LoggingLevel.INFO, acc.Id + ' ' + acc.Name);
+                    accids.add(acc.Id);
+                    accMap.put(acc.Id, acc);
+                }
             }
-        }
-        if (!accids.isEmpty()) {
-            for (Id accId : accids) {
-                System.debug(LoggingLevel.INFO, accId);
+            if (!accids.isEmpty()) {
+                for (Id accId : accids) {
+                    System.debug(LoggingLevel.INFO, accId);
+                }
             }
-        }
-        if (!accMap.isEmpty()) {
-            for (Id accId : accMap.keySet()) {
-                System.debug(LoggingLevel.INFO, accId);
+            if (!accMap.isEmpty()) {
+                for (Id accId : accMap.keySet()) {
+                    System.debug(LoggingLevel.INFO, accId);
+                }
             }
-        }
-        if (!accMap.isEmpty()) {
-            for (Account acc : accMap.values()) {
-                System.debug(LoggingLevel.INFO, acc);
+            if (!accMap.isEmpty()) {
+                for (Account acc : accMap.values()) {
+                    System.debug(LoggingLevel.INFO, acc);
+                }
             }
+        } else {
+            System.debug(LoggingLevel.ERROR, 'No access to Account object.');
         }
     }
 }
