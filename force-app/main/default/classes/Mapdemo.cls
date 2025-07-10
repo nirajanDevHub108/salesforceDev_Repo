@@ -88,5 +88,5 @@ public with sharing class Mapdemo {
     } else {
         System.debug(LoggingLevel.ERROR, 'No access to Account object.');
     }
-}
+
 }
