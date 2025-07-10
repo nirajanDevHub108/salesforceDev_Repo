@@ -66,7 +66,12 @@ public with sharing class Mapdemo {
      * @description Demonstrates iterating over Account records,
      * collecting IDs, and working with maps and sets.
      */
-   if (Schema.sObjectType.Account.isAccessible()) {
+   /**
+ * @description Demonstrates iterating over Account records,
+ * collecting IDs, and working with maps and sets.
+ */
+public static void iterateAccountsDemo() {
+    if (Schema.sObjectType.Account.isAccessible()) {
         List<Account> accList = [SELECT Id, Name, Phone FROM Account LIMIT 5];
         if (!accList.isEmpty()) {
             Set<Id> accids = new Set<Id>();
@@ -88,5 +93,6 @@ public with sharing class Mapdemo {
     } else {
         System.debug(LoggingLevel.ERROR, 'No access to Account object.');
     }
+}
 
 }
