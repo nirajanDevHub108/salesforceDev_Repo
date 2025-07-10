@@ -2,7 +2,7 @@ public class Square {
     public Integer side;
 
     /**
-     * @description Constructor for Square.
+     * used to calculate square side.
      */
     public Square(Integer s) {
         this.side = s;
@@ -10,8 +10,8 @@ public class Square {
     }
 
     /**
-     * @description Calculates the area of the square.
-     * @return Integer The area of the square.
+     * Calculates the area of the square.
+     * return Integer The area of the square.
      */
     public Integer area() {
         System.debug(LoggingLevel.INFO, 'Calculating area');
