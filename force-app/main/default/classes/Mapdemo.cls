@@ -1,5 +1,6 @@
 /**
- * Demonstrates various map operations and SOQL queries on Account.
+ * @description Demonstrates various map operations and SOQL queries on Account.
+ * Demonstrates map operations, SOQL, and basic debugging for Accounts.
  */
 public with sharing class Mapdemo {
 
@@ -65,35 +66,27 @@ public with sharing class Mapdemo {
      * @description Demonstrates iterating over Account records,
      * collecting IDs, and working with maps and sets.
      */
-    public static void method3() {
-        if (Schema.sObjectType.Account.isAccessible()) {
-            List<Account> accList = [SELECT Id, Name, Phone FROM Account LIMIT 5];
+   if (Schema.sObjectType.Account.isAccessible()) {
+        List<Account> accList = [SELECT Id, Name, Phone FROM Account LIMIT 5];
+        if (!accList.isEmpty()) {
             Set<Id> accids = new Set<Id>();
             Map<Id, Account> accMap = new Map<Id, Account>();
-            if (!accList.isEmpty()) {
-                for (Account acc : accList) {
-                    System.debug(LoggingLevel.INFO, acc.Id + ' ' + acc.Name);
-                    accids.add(acc.Id);
-                    accMap.put(acc.Id, acc);
-                }
+            for (Account acc : accList) {
+                System.debug(LoggingLevel.INFO, acc.Id + ' ' + acc.Name);
+                accids.add(acc.Id);
+                accMap.put(acc.Id, acc);
             }
-            if (!accids.isEmpty()) {
-                for (Id accId : accids) {
-                    System.debug(LoggingLevel.INFO, accId);
-                }
+            // Print all IDs
+            for (Id accId : accids) {
+                System.debug(LoggingLevel.INFO, accId);
             }
-            if (!accMap.isEmpty()) {
-                for (Id accId : accMap.keySet()) {
-                    System.debug(LoggingLevel.INFO, accId);
-                }
+            // Print all Accounts (if needed)
+            for (Account acc : accMap.values()) {
+                System.debug(LoggingLevel.INFO, acc);
             }
-            if (!accMap.isEmpty()) {
-                for (Account acc : accMap.values()) {
-                    System.debug(LoggingLevel.INFO, acc);
-                }
-            }
-        } else {
-            System.debug(LoggingLevel.ERROR, 'No access to Account object.');
         }
+    } else {
+        System.debug(LoggingLevel.ERROR, 'No access to Account object.');
     }
+}
 }
