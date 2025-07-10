@@ -1,39 +1,59 @@
+/**
+ * @description This class demonstrates best practices for Apex development.
+ */
 public class BadPracticeExample {
 
-    // ⚠️ Avoid hardcoded credentials
-    private static final String API_KEY = '1234567890abcdef';
+    // ✅ Use protected or private fields and avoid hardcoded credentials
+    private static final String API_KEY = System.Label.API_KEY; // Assume using a custom label
 
-    // ⚠️ Avoid unused variables
-    private Integer unusedCounter;
+    // ✅ Remove unused variables or use them meaningfully
+    private Integer counter = 0;
 
-    // ⚠️ Avoid long methods
+    /**
+     * @description Processes data with proper logging and structure.
+     */
     public void processData() {
-        System.debug('Starting process...');
-        for (Integer i = 0; i < 100; i++) {
-            System.debug('Processing item: ' + i);
+        for (Integer i = 0; i < 10; i++) {
+            counter += i;
         }
-        System.debug('Finished processing.');
+        logInfo('Processed ' + counter + ' items.');
     }
 
-    // ⚠️ Avoid empty catch blocks
+    /**
+     * @description Handles risky operations with proper error handling.
+     */
     public void riskyOperation() {
         try {
             Integer result = 10 / 0;
         } catch (Exception e) {
-            // silently ignore
+            logError('Error occurred: ' + e.getMessage());
         }
     }
 
-    // ⚠️ Avoid using System.debug in production code
-    public void logSomething() {
-        System.debug('Logging something...');
+    /**
+     * @description Logs informational messages.
+     * @param message The message to log.
+     */
+    private void logInfo(String message) {
+        // Replace with a proper logging framework if available
+        System.debug(LoggingLevel.INFO, message);
     }
 
-    // ⚠️ Avoid public fields
-    public String publicData;
+    /**
+     * @description Logs error messages.
+     * @param message The error message to log.
+     */
+    private void logError(String message) {
+        System.debug(LoggingLevel.ERROR, message);
+    }
 
-    // ⚠️ Avoid naming violations
-    public void do_stuff() {
-        System.debug('Doing stuff...');
+    // ✅ Use private fields and proper naming conventions
+    private String internalData;
+
+    /**
+     * @description Performs a defined task.
+     */
+    public void doStuff() {
+        logInfo('Doing stuff...');
     }
 }
