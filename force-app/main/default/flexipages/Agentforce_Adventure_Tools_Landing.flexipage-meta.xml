@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Agentforce Adventure Tools</description>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>diceRoller</componentName>
+                <identifier>c_diceRoller</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>main</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Agentforce Adventure Tools</masterLabel>
+    <template>
+        <name>flexipage:defaultAppHomeTemplate</name>
+    </template>
+    <type>AppPage</type>
+</FlexiPage>

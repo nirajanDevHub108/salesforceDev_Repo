@@ -1,3 +1,2 @@
-trigger oppTrigger on Opportunity (before insert) {
-
+trigger oppTrigger on Opportunity(before insert) {
 }

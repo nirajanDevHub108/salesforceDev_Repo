@@ -5,14 +5,14 @@ permissions:
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths-ignore:
-      - '**/*.md'
-      - '**/*.txt'
+      - "**/*.md"
+      - "**/*.txt"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   schedule:
-    - cron: '17 9 * * 6'  # Weekly scan on Saturdays
+    - cron: "17 9 * * 6" # Weekly scan on Saturdays
 
 jobs:
   pmd-scan:
@@ -26,8 +26,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: "temurin"
+          java-version: "17"
 
       - name: Download PMD
         run: |
@@ -41,4 +41,3 @@ jobs:
             -d force-app/main/default/classes \
             -R rulesets/apex/quickstart.xml \
             -f sarif
-
