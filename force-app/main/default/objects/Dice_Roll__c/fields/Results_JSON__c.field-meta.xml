@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Results_JSON__c</fullName>
+    <description
+  >Raw results of each die in order as JSON, for example [4, 6, 1].</description>
+    <inlineHelpText
+  >Raw results of each die in order as JSON, for example [4, 6, 1].</inlineHelpText>
+    <label>Results JSON</label>
+    <length>32768</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>
