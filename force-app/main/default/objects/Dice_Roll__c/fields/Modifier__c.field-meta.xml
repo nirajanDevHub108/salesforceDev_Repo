@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Modifier__c</fullName>
     <defaultValue>0</defaultValue>
-    <description
-  >Bonus or penalty applied to the roll total. Accepts negative or positive integers.</description>
+    <description>Bonus or penalty applied to the roll total. Accepts negative or positive integers.</description>
     <externalId>false</externalId>
-    <inlineHelpText
-  >Bonus or penalty applied to the roll total. Accepts negative or positive integers.</inlineHelpText>
+    <inlineHelpText>Bonus or penalty applied to the roll total. Accepts negative or positive integers.</inlineHelpText>
     <label>Modifier</label>
     <precision>4</precision>
     <required>false</required>

@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Roller__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description
-  >The adventurer behind the roll. Set a teammate, a bot, or keep it as the creator.</description>
-    <inlineHelpText
-  >The adventurer behind the roll. Set a teammate, a bot, or keep it as the creator.</inlineHelpText>
+    <description>The adventurer behind the roll. Set a teammate, a bot, or keep it as the creator.</description>
+    <inlineHelpText>The adventurer behind the roll. Set a teammate, a bot, or keep it as the creator.</inlineHelpText>
     <label>Roller</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Dice_Rolls</relationshipName>
