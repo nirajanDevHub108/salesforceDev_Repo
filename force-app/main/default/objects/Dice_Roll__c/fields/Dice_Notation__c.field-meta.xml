@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Dice_Notation__c</fullName>
-    <description
-  >Human friendly format for the roll, for example 3d6+2.</description>
+    <description>Human friendly format for the roll, for example 3d6+2.</description>
     <externalId>false</externalId>
     <formula>TEXT(Number_of_Dice__c) &amp;
 &quot;d&quot; &amp;
@@ -13,8 +12,7 @@ IF(
   IF(Modifier__c &gt; 0, &quot;+&quot; &amp; TEXT(Modifier__c), TEXT(Modifier__c))
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText
-  >Human friendly format for the roll, for example 3d6+2 or 2d20-6.</inlineHelpText>
+    <inlineHelpText>Human friendly format for the roll, for example 3d6+2 or 2d20-6.</inlineHelpText>
     <label>Dice Notation</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
