@@ -102,4 +102,52 @@ private class CaseTriggerTest {
             }
         }
     }
+    
+    @isTest
+    static void testCaseTriggerBeforeInsertWithNullOrigin() {
+        // Test with null origin to ensure robustness
+        Case testCase = new Case(
+            Subject = 'Test Case Null Origin',
+            Origin = null
+        );
+        
+        insert testCase;
+        
+        // Verify that priority was set to Low (default case)
+        System.assertEquals('Low', testCase.Priority, 'Priority should be set to Low for null origin');
+    }
+    
+    @isTest
+    static void testCaseTriggerBeforeInsertEdgeCases() {
+        // Test with various edge case origins
+        List<Case> testCases = new List<Case>();
+        
+        // Test with empty string origin
+        Case testCase1 = new Case(
+            Subject = 'Test Case Empty Origin',
+            Origin = ''
+        );
+        testCases.add(testCase1);
+        
+        // Test with whitespace origin
+        Case testCase2 = new Case(
+            Subject = 'Test Case Whitespace Origin',
+            Origin = '   '
+        );
+        testCases.add(testCase2);
+        
+        // Test with special characters
+        Case testCase3 = new Case(
+            Subject = 'Test Case Special Characters',
+            Origin = 'Phone!'
+        );
+        testCases.add(testCase3);
+        
+        insert testCases;
+        
+        // Verify priorities
+        System.assertEquals('Low', testCase1.Priority, 'Priority should be Low for empty origin');
+        System.assertEquals('Low', testCase2.Priority, 'Priority should be Low for whitespace origin');
+        System.assertEquals('Low', testCase3.Priority, 'Priority should be Low for special characters origin');
+    }
 }

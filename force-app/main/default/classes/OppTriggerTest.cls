@@ -68,4 +68,42 @@ private class OppTriggerTest {
         // Verify that the trigger executed without errors
         System.assertEquals(5, opportunities.size(), 'All opportunities should be processed');
     }
+    
+    @isTest
+    static void testOppTriggerWithNullValues() {
+        // Test with null values to ensure robustness
+        Opportunity opp = new Opportunity(
+            Name = 'Test Opportunity Null Values',
+            StageName = null,
+            CloseDate = Date.today(),
+            Amount = 10000
+        );
+        insert opp;
+        
+        // Update the opportunity
+        opp.StageName = 'Closed Won';
+        update opp;
+        
+        // Verify that the trigger executed without errors
+        System.assertNotEquals(null, opp.Id, 'Opportunity should be created');
+    }
+    
+    @isTest
+    static void testOppTriggerEdgeCase() {
+        // Test edge case with different stages
+        Opportunity opp = new Opportunity(
+            Name = 'Test Edge Case',
+            StageName = 'Closed Won',
+            CloseDate = Date.today(),
+            Amount = 0
+        );
+        insert opp;
+        
+        // Update the opportunity
+        opp.StageName = 'Closed Won';
+        update opp;
+        
+        // Verify that the trigger executed without errors
+        System.assertNotEquals(null, opp.Id, 'Opportunity should be created');
+    }
 }

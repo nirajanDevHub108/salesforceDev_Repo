@@ -139,4 +139,93 @@ private class LeadTriggerTest {
         System.assertEquals(3, healthcareCount, 'Should have 3 healthcare leads');
         System.assertEquals(3, nonHealthcareCount, 'Should have 3 non-healthcare leads');
     }
+    
+    @isTest
+    static void testLeadTriggerBeforeUpdateWithNullValues() {
+        // Test with null values to ensure robustness
+        Lead testLead = new Lead(
+            FirstName = null,
+            LastName = 'Lead',
+            Company = 'Test Company',
+            Industry = 'Healthcare'
+        );
+        
+        insert testLead;
+        
+        // Update the lead to trigger the logic
+        testLead.Industry = 'Healthcare';
+        update testLead;
+        
+        // Verify that status was set to Working-Contacted
+        System.assertEquals('Working-Contacted', testLead.Status, 'Status should be set to Working-Contacted');
+        
+        // Verify that LeadSource was set to Purchased List
+        System.assertEquals('Purchased List', testLead.LeadSource, 'LeadSource should be set to Purchased List');
+        
+        // Verify that SICCode__c was set to 1100
+        System.assertEquals('1100', testLead.SICCode__c, 'SICCode__c should be set to 1100');
+        
+        // Verify that Primary__c was set to Yes
+        System.assertEquals('Yes', testLead.Primary__c, 'Primary__c should be set to Yes');
+    }
+    
+    @isTest
+    static void testLeadTriggerBeforeUpdateEdgeCases() {
+        // Test with various edge cases for industry field
+        List<Lead> testLeads = new List<Lead>();
+        
+        // Test with empty string industry
+        Lead testLead1 = new Lead(
+            FirstName = 'Test1',
+            LastName = 'Lead1',
+            Company = 'Test Company 1',
+            Industry = ''
+        );
+        testLeads.add(testLead1);
+        
+        // Test with whitespace industry
+        Lead testLead2 = new Lead(
+            FirstName = 'Test2',
+            LastName = 'Lead2',
+            Company = 'Test Company 2',
+            Industry = '   '
+        );
+        testLeads.add(testLead2);
+        
+        // Test with special characters in industry
+        Lead testLead3 = new Lead(
+            FirstName = 'Test3',
+            LastName = 'Lead3',
+            Company = 'Test Company 3',
+            Industry = 'Healthcare!'
+        );
+        testLeads.add(testLead3);
+        
+        insert testLeads;
+        
+        // Update all leads to trigger the logic
+        for(Lead testLead : testLeads) {
+            testLead.Industry = testLead.Industry; // Just triggering the update
+        }
+        
+        update testLeads;
+        
+        // Verify that status was set to Working-Contacted for all
+        System.assertEquals('Working-Contacted', testLead1.Status, 'Status should be set to Working-Contacted');
+        System.assertEquals('Working-Contacted', testLead2.Status, 'Status should be set to Working-Contacted');
+        System.assertEquals('Working-Contacted', testLead3.Status, 'Status should be set to Working-Contacted');
+        
+        // Verify that LeadSource, SICCode__c, and Primary__c were NOT set for non-Healthcare industries
+        System.assertNull(testLead1.LeadSource, 'LeadSource should not be set for empty industry');
+        System.assertNull(testLead1.SICCode__c, 'SICCode__c should not be set for empty industry');
+        System.assertNull(testLead1.Primary__c, 'Primary__c should not be set for empty industry');
+        
+        System.assertNull(testLead2.LeadSource, 'LeadSource should not be set for whitespace industry');
+        System.assertNull(testLead2.SICCode__c, 'SICCode__c should not be set for whitespace industry');
+        System.assertNull(testLead2.Primary__c, 'Primary__c should not be set for whitespace industry');
+        
+        System.assertNull(testLead3.LeadSource, 'LeadSource should not be set for special characters industry');
+        System.assertNull(testLead3.SICCode__c, 'SICCode__c should not be set for special characters industry');
+        System.assertNull(testLead3.Primary__c, 'Primary__c should not be set for special characters industry');
+    }
 }
