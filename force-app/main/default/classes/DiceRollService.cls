@@ -32,6 +32,8 @@ public with sharing class DiceRollService {
     public String notation; // Dice notation (e.g., "3d6+2")
     @AuraEnabled
     public String resultsJson; // JSON array of individual roll results
+    @AuraEnabled
+    public Integer sides; // Number of sides on the dice
   }
 
   /**
@@ -116,6 +118,7 @@ public with sharing class DiceRollService {
     out.sum = sum;
     out.hadCritical = hadCritical;
     out.resultsJson = clean.Results_JSON__c;
+    out.sides = sides; // Add the sides field
     out.total = sum + modifier; // Final total including modifier
 
     // Format dice notation (e.g., "2d6+3" or "1d20-1")
