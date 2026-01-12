@@ -129,6 +129,10 @@ private class DiceRollServiceTest {
     static void testJsonSerialization() {
         DiceRollService.RollResult result = DiceRollService.rollAndSave(3, 8, 2, null);
         
+        // Debug: Print the actual values to understand what's happening
+        System.debug('DEBUG JSON: result.resultsJson = ' + result.resultsJson);
+        System.debug('DEBUG JSON: result.sum = ' + result.sum);
+        
         // Verify JSON is valid
         Assert.isNotNull(result.resultsJson, 'Results JSON should not be null');
         

@@ -73,7 +73,7 @@ public with sharing class DiceRollService {
 
     for (Integer num = 0; num < numberOfDice; num++) {
       // Generate random number from 1 to sides (inclusive)
-      Integer roll = Integer.valueOf(Math.floor(Math.random() * sides)) + 1;
+      Integer roll = (Integer)Math.floor(Math.random() * sides) + 1;
       results.add(roll);
       sum += roll;
       // Critical hit occurs when die shows maximum value
