@@ -1,0 +1,5 @@
+<StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
+    <cacheControl>Public</cacheControl>
+    <contentType>image/svg+xml</contentType>
+    <description>Placeholder dice asset for LWC diceRoller</description>
+</StaticResource>

@@ -142,7 +142,7 @@ public class AccountManagerTest {
     Boolean result = AccountManager.deleteAccount(createdAccount.Id);
 
     // Verify
-    Assert.isTrue(result, String.valueOf('Account deletion should succeed'));
+    System.assertTrue(result, 'Account deletion should succeed');
 
     // Verify account is actually deleted
     Account deletedAccount = AccountManager.getAccountById(createdAccount.Id);
@@ -163,10 +163,10 @@ public class AccountManagerTest {
     Boolean exists = AccountManager.doesAccountExist(testName);
 
     // Verify
-    Assert.isTrue(exists, String.valueOf('Account should exist'));
+    System.assertTrue(exists, 'Account should exist');
 
     // Test with non-existent account
     Boolean notExists = AccountManager.doesAccountExist('Non Existent Account');
-    Assert.isFalse(notExists, String.valueOf('Non-existent account should not exist'));
+    System.assertFalse(notExists, 'Non-existent account should not exist');
   }
 }
