@@ -5,12 +5,12 @@ permissions:
 
 on:
   push:
-    branches: ["main"]
+    branches: ["sit"]
     paths-ignore:
       - "**/*.md"
       - "**/*.txt"
   pull_request:
-    branches: ["main"]
+    branches: ["sit"]
   schedule:
     - cron: "17 9 * * 6" # Weekly scan on Saturdays
 
