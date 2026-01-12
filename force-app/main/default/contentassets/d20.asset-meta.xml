@@ -1,7 +1,1 @@
-<ContentAsset xmlns="http://soap.sforce.com/2006/04/metadata">
-    <format>SVG</format>
-    <isVisibleByExternalUsers>false</isVisibleByExternalUsers>
-    <language>en_US</language>
-    <masterLabel>d20</masterLabel>
-    <publishedStatus>Public</publishedStatus>
-</ContentAsset>
+REMOVED: Top-level meta moved to force-app/main/default/contentassets/d20/d20.asset-meta.xml
