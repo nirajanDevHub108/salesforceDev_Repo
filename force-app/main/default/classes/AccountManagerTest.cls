@@ -1,172 +1,68 @@
 @isTest
-public class AccountManagerTest {
-  @isTest
-  static void testCreateAccount() {
-    // Setup
-    String testName = 'Test Account ' + System.currentTimeMillis();
+private class AccountManagerTest {
 
-    // Execute
-    Account createdAccount = AccountManager.createAccount(
-      testName,
-      'Customer',
-      'Technology'
-    );
+    @isTest
+    static void testCreateAccount() {
+        Account acc = AccountManager.createAccount('Test Account', 'Customer', 'Technology');
+        System.assertNotEquals(null, acc.Id, 'Account Id should not be null');
+        System.assertEquals('Test Account', acc.Name);
+        System.assertEquals('Customer', acc.Type);
+        System.assertEquals('Technology', acc.Industry);
+    }
 
-    // Verify
-    System.assertNotEquals(
-      null,
-      createdAccount.Id,
-      'Account should have an ID after creation'
-    );
-    System.assertEquals(
-      testName,
-      createdAccount.Name,
-      'Account name should match'
-    );
-    System.assertEquals(
-      'Customer',
-      createdAccount.Type,
-      'Account type should match'
-    );
-    System.assertEquals(
-      'Technology',
-      createdAccount.Industry,
-      'Account industry should match'
-    );
-  }
+    @isTest
+    static void testUpdateAccount() {
+        Account acc = new Account(Name = 'Old Name', Type = 'Partner', Industry = 'Healthcare');
+        insert acc;
 
-  @isTest
-  static void testUpdateAccount() {
-    // Setup
-    String testName = 'Test Account ' + System.currentTimeMillis();
-    Account createdAccount = AccountManager.createAccount(
-      testName,
-      'Customer',
-      'Technology'
-    );
+        Account updated = AccountManager.updateAccount(acc.Id, 'New Name', 'Customer', 'Technology');
+        System.assertEquals(acc.Id, updated.Id);
+        System.assertEquals('New Name', updated.Name);
+        System.assertEquals('Customer', updated.Type);
+        System.assertEquals('Technology', updated.Industry);
+    }
 
-    String newName = 'Updated Account ' + System.currentTimeMillis();
+    @isTest
+    static void testGetAccountById() {
+        Account acc = new Account(Name = 'Sample', Type = 'Customer', Industry = 'Finance');
+        insert acc;
 
-    // Execute
-    Account updatedAccount = AccountManager.updateAccount(
-      createdAccount.Id,
-      newName,
-      'Partner',
-      'Financial Services'
-    );
+        Account retrieved = AccountManager.getAccountById(acc.Id);
+        System.assertNotEquals(null, retrieved);
+        System.assertEquals(acc.Id, retrieved.Id);
+        System.assertEquals('Sample', retrieved.Name);
+    }
 
-    // Verify
-    System.assertEquals(
-      createdAccount.Id,
-      updatedAccount.Id,
-      'Account ID should remain the same'
-    );
-    System.assertEquals(
-      newName,
-      updatedAccount.Name,
-      'Account name should be updated'
-    );
-    System.assertEquals(
-      'Partner',
-      updatedAccount.Type,
-      'Account type should be updated'
-    );
-    System.assertEquals(
-      'Financial Services',
-      updatedAccount.Industry,
-      'Account industry should be updated'
-    );
-  }
+    @isTest
+    static void testGetAccountsByName() {
+        insert new Account(Name = 'Alpha Account');
+        insert new Account(Name = 'Beta Account');
 
-  @isTest
-  static void testGetAccountById() {
-    // Setup
-    String testName = 'Test Account ' + System.currentTimeMillis();
-    Account createdAccount = AccountManager.createAccount(
-      testName,
-      'Customer',
-      'Technology'
-    );
+        List<Account> results = AccountManager.getAccountsByName('Alpha');
+        System.assertEquals(1, results.size());
+        System.assert(results[0].Name.contains('Alpha'));
+    }
 
-    // Execute
-    Account retrievedAccount = AccountManager.getAccountById(createdAccount.Id);
+    @isTest
+    static void testDeleteAccount() {
+        Account acc = new Account(Name = 'To Delete', Type = 'Customer', Industry = 'Technology');
+        insert acc;
 
-    // Verify
-    System.assertNotEquals(
-      null,
-      retrievedAccount,
-      'Retrieved account should not be null'
-    );
-    System.assertEquals(
-      createdAccount.Id,
-      retrievedAccount.Id,
-      'Account IDs should match'
-    );
-    System.assertEquals(
-      testName,
-      retrievedAccount.Name,
-      'Account names should match'
-    );
-  }
+        Boolean deleted = AccountManager.deleteAccount(acc.Id);
+        System.assert(deleted, 'Account should be deleted');
 
-  @isTest
-  static void testGetAccountsByName() {
-    // Setup
-    String testName = 'Test Account ' + System.currentTimeMillis();
-    AccountManager.createAccount(testName, 'Customer', 'Technology');
+        Account deletedAcc = [SELECT Id FROM Account WHERE Id = :acc.Id LIMIT 1];
+        System.assertEquals(null, deletedAcc, 'Query should return null if account is deleted');
+    }
 
-    // Execute
-    List<Account> accounts = AccountManager.getAccountsByName(testName);
+    @isTest
+    static void testDoesAccountExist() {
+        insert new Account(Name = 'Existing Account');
 
-    // Verify
-    System.assertNotEquals(null, accounts, 'Accounts list should not be null');
-    System.assert(accounts.size() > 0, 'Should find at least one account');
-    System.assertEquals(
-      testName,
-      accounts[0].Name,
-      'Account name should match'
-    );
-  }
+        Boolean exists = AccountManager.doesAccountExist('Existing Account');
+        System.assert(exists, 'Account should exist');
 
-  @isTest
-  static void testDeleteAccount() {
-    // Setup
-    String testName = 'Test Account ' + System.currentTimeMillis();
-    Account createdAccount = AccountManager.createAccount(
-      testName,
-      'Customer',
-      'Technology'
-    );
-
-    // Execute
-    Boolean result = AccountManager.deleteAccount(createdAccount.Id);
-
-    // Verify
-    System.assertTrue(result, 'Account deletion should succeed');
-
-    // Verify account is actually deleted
-    Account deletedAccount = AccountManager.getAccountById(createdAccount.Id);
-    System.assertEquals(
-      null,
-      deletedAccount,
-      'Deleted account should not be retrievable'
-    );
-  }
-
-  @isTest
-  static void testDoesAccountExist() {
-    // Setup
-    String testName = 'Test Account ' + System.currentTimeMillis();
-    AccountManager.createAccount(testName, 'Customer', 'Technology');
-
-    // Execute
-    Boolean exists = AccountManager.doesAccountExist(testName);
-
-    // Verify
-    System.assertTrue(exists, 'Account should exist');
-
-    // Test with non-existent account
-    Boolean notExists = AccountManager.doesAccountExist('Non Existent Account');
-    System.assertFalse(notExists, 'Non-existent account should not exist');
-  }
+        Boolean notExists = AccountManager.doesAccountExist('NonExisting Account');
+        System.assert(!notExists, 'Account should not exist');
+    }
 }
